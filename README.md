@@ -21,14 +21,23 @@ Players alternates until one player gets 4 checkers of his color in a row.
 2. pseudo code
 
 ###Thursday
+
 - HTML coding
+
 ###Friday
+
 - JS coding
+
 ###Saturday
+
 - HTML, JS 
+
 ###Sunday
-- HTML, JS 
+
+- HTML, JS
+
 ###Monday
+
 - testing
 
 ### References:
