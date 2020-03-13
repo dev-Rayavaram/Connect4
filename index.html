@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
+        <style>
+            html,body{
+                height: 100%;
+                width:100%;
+                margin-top: 20px;
+                display: flex;
+                background-color:rgb(236, 233, 238);
+                justify-content: center;
+                align-items: center;
+            }
+            .board{
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+                grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
+                background-color:mediumslateblue;
+                width:80%;
+                height:80%;
+            }
+            canvas{
+                padding:5px;
+               }
+            header{
+                position: relative;
+                bottom:75%;
+                left:43%;
+            }
+            .canvasCell{
+                width:100px;
+                height:100px;
+                background-color:palegoldenrod;
+
+                border:2px solid magenta;
+
+            }
+        </style>
+    <title>Document</title>
+</head>
+<body>
+   <div class="main">
+            <header>
+                <canvas id="myCanvas" width="200" height="50" >
+                </canvas>       
+            </header>
+
+            <div id= "board" class="board">
+            
+            </div>
+   </div> 
+</body>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="./src/app.js"></script>
+</html>
