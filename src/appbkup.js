@@ -151,3 +151,145 @@ ctx3.stroke();
 
 
 });
+
+$(()=>{
+    let width,height,radius;
+    let board={
+
+    }
+    const drawCircle = (id,width,height,radius,color)=>{
+        let c = document.getElementById(id);
+        let ctx2 = c.getContext("2d");
+        ctx2.beginPath();
+        ctx2.arc(width, height, radius, 0, 2 * Math.PI, false);
+        ctx2.fillStyle = color;
+        ctx2.fill();
+        ctx2.lineWidth = width/100;
+        ctx2.strokeStyle = '#003300';
+        ctx2.stroke();
+    }
+    const move=()=>{
+        alert("move the piece");
+    }
+    const play=()=>{
+        alert("play the piece");
+     
+    }
+    const mouseENTER= function(){
+       // console.log("element");
+        
+        const col =$(this)[0].id;
+        
+        console.log(col);
+        drawCircle(col,width,height,radius,'orange');
+    }
+    const mouseClick= function(){
+        let element = $(this)[0];
+
+        const col =$(this)[0].id;
+        const colData = $(element).attr('col');
+        const rowData = element.getAttribute('row');
+        console.log(`${colData}${rowData}`);
+      //  console.log(col);
+        drawCircle(col,width,height,radius,'red');
+    }
+    const mouseOUT= function(){
+        const col =$(this)[0].id;
+      //  console.log(col);
+        drawCircle(col,width,height,radius,'white');
+    }
+   const start=()=>{
+       console.log("inside start");
+       const $board =$('.col');
+       $board.on('mouseover',mouseENTER);
+       $board.on('click',mouseClick);
+
+       $board.on('mouseout',mouseOUT);
+    
+   } 
+   const stop=()=>{
+    console.log("inside stop");
+    const $board =$('.col');
+    $board.off('mouseenter',mouseENTER);
+    $board.off('click',mouseClick);
+
+    $board.off('mouseout',mouseOUT);
+   }
+const initializeBoard=()=>{
+   
+//    var c = document.getElementById("myCanvas");
+//         var ctx = c.getContext("2d");
+//         ctx.font = "45px Arial";
+//         var gradient = ctx.createLinearGradient(0, 0, 170, 0);
+//         gradient.addColorStop("0", "white");
+//         gradient.addColorStop("0.5" ,"#f1f3ce");
+//         gradient.addColorStop("1.0", "#fdfcfe");
+
+// // Fill with gradient
+//         ctx.strokeStyle = gradient;
+//         ctx.strokeText("Connect 4", 20, 50);
+    let $div = $("#board");
+    width = ($(document).width())/10;
+    height =($(document).height())/10;
+    radius=height-height/5;
+    console.log("width is:"+width);
+    console.log("height is:"+height);
+    let index=0;
+    let id='';
+    let $zeroRow = $('#piece');
+
+    for(let k=0;k<7;k++){
+        let indexZero=`canvasCell[0][${k}]`;
+        const $colZero = $('<canvas>').addClass('col empty').attr('col',k).attr('row',0).attr('id',indexZero);
+        $colZero.width(width).height(height);
+        $colZero.width(width).height(height);
+        $colZero.appendTo($zeroRow);
+        $($colZero).click((event)=>{
+           // console.log(event.target);
+            
+        });
+    }
+    for(let i=1;i<7;i++){
+        id=id+i;
+        const $row =$('<div>');
+        $row.addClass('row');
+        //  console.log("id :"+index);       
+        for(var j=0;j<7;j++){
+            index=`canvasCell[${i}][${j}]`;
+          //  console.log("id :"+index);
+
+            const $col = $('<canvas>').addClass('col empty').attr('col',j).attr('row',i).attr('id',index);
+            $col.width(width).height(height);
+            $col.width(width).height(height);
+            $col.appendTo($div);
+            $($col).click((event)=>{
+               // console.log(event.target);
+                
+            });
+            drawCircle(index,width,height,radius,'white');
+    
+        }
+    }
+    // for(let i=0;i<42;i++){
+    //     let $cell = $('<canvas/>',{
+    //         class: 'canvasCell',id:id
+    //     });
+    //     $cell.width(width).height(height);
+    //     $cell.appendTo($div);
+    //     drawCircle(id,width,height,radius,'white');
+    //  }
+    //  let $myPics = $("#piece");        
+    // let $myPicscell = $('<canvas/>',{
+    // class: 'Picscell',id:'Picscell'
+    // });
+    // $myPicscell.width(width).height(height)
+    // $myPicscell.appendTo($myPics);
+    // drawCircle('Picscell',width,height,radius,'red');
+   
+  }
+initializeBoard();
+let startBtn = document.getElementById("start").addEventListener('click',start);
+let stopBtn = document.getElementById("stop").addEventListener('click',stop);
+
+
+});
