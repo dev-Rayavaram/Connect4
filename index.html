@@ -56,7 +56,10 @@
                 border:.1% solid #fdfcfe;
 
             }
-            .col.player1:hover{
+            .col.empty{
+                cursor: pointer;
+            }
+            .col:hover{
                 width:3%;
                 height:2%;
                 background: blue;
@@ -66,20 +69,7 @@
                 padding:0px;
                 border:.1% solid #fdfcfe;
             }
-            .col.computer:hover{
-                width:3%;
-                height:2%;
-                background: blue;
-                background-image: url('./images/connect4-yellow-image2.png');
-                background-repeat: no-repeat;
-                background-position: center;
-                padding:0px;
-                border:.1% solid #fdfcfe;
-            }
-            .col.red{
-                background: red
-  
-            }
+          
             .topbar{
                 display: flex;
                 flex-direction: column;
@@ -163,6 +153,8 @@
         <div class="buttons">
             <button id="start"> Start </button>
             <button id="stop"> Stop </button>
+            <button id="reset"> Reset </button>
+
            </div>            
    </div> 
 </body>
