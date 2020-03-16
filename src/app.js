@@ -14,7 +14,6 @@ $(()=>{
         ctx2.lineWidth = width/100;
         ctx2.strokeStyle = '#003300';
         ctx2.stroke();
-        gameOver=checkGameStatus(id);
     }
     const move=()=>{
         alert("move the piece");
@@ -26,7 +25,7 @@ $(()=>{
      const findLastFilledElement=(list,color)=>{
        console.log("findLastFilledElement");
        for(let i=list.length-1;i>0;i--){
-            console.log("inside");
+          //  console.log("inside");
             let $cell = $(list[i]);
           //  console.log("cell");
            // console.log($cell);
@@ -38,6 +37,8 @@ $(()=>{
                 drawCircle(index,width,height,radius,color);
                 $cell.removeClass('empty');
                 $cell.addClass(`${currentPlayer}`);
+                gameOver=checkGameStatus(index);
+
                 if(currentPlayer ==="player1"){
                     currentPlayer ="computer";
                     //create random event at random index
@@ -60,6 +61,46 @@ $(()=>{
     }
 }
 const checkDiagonal=(colIndex,rowIndex)=>{
+    gameObject=[];
+    let element = {};
+    if(!newGame){
+         let nextIndex=1;
+        let colInt=parseInt(colIndex);
+        let rowInt=parseInt(rowIndex);
+       // console.log("colInt"+rowInt);
+        if(colInt==0 && rowInt==1){
+            gameObject.push({col:0,row:1});
+            gameObject.push({col:1,row:2});
+            gameObject.push({col:2,row:3});
+            gameObject.push({col:3,row:4});
+
+        }
+        else if(colInt==0 && rowInt==6)
+        {
+                gameObject.push({col:0,row:6});
+                gameObject.push({col:1,row:5});
+                gameObject.push({col:2,row:4});
+                gameObject.push({col:3,row:3});
+    
+        }
+        else if(colInt==6 && rowInt==1)
+        {
+                gameObject.push({col:6,row:1});
+                gameObject.push({col:5,row:2});
+                gameObject.push({col:4,row:3});
+                gameObject.push({col:3,row:4});
+    
+        }
+        else if(colInt==6 && rowInt==6)
+        {
+                gameObject.push({col:6,row:6});
+                gameObject.push({col:5,row:5});
+                gameObject.push({col:4,row:4});
+                gameObject.push({col:3,row:3});
+    
+        }
+        gameStatus(gameObject);       
+    }
 
 }
 const checkHorizontal=(colIndex,rowIndex)=>{
@@ -70,14 +111,11 @@ const checkHorizontal=(colIndex,rowIndex)=>{
         let colInt=parseInt(colIndex);
         let rowInt=parseInt(rowIndex);
        // console.log("colInt"+rowInt);
-        element.col = colInt;
-        element.row = rowInt;
-        gameObject.push(element);
 
         switch(colInt){
             case 7:
             //    console.log("case 7");
-                    for(let i=colInt-4;i<colInt;i++){
+                    for(let i=colInt-4;i<=colInt;i++){
                         let temp={};
            //             console.log("inside for loop"+i);
                         temp.col = i;
@@ -166,11 +204,7 @@ const checkHorizontal=(colIndex,rowIndex)=>{
                        break;  
     
             }
-    
-    //        console.log("gameObject is");
-    //        console.log(gameObject);
-     
-
+          gameStatus(gameObject);
         }
    
 }
@@ -182,15 +216,10 @@ const checkVertical=(colIndex,rowIndex)=>{
         let rowInt=parseInt(rowIndex);
         let colInt=parseInt(colIndex);
 
-       // console.log("colInt"+rowInt);
-        element.col = colIndex;
-        element.row = rowInt;
-        gameObject.push(element);
-
         switch(rowInt){
             case 6:
               //  console.log("case 6");
-                    for(let i=rowInt-3;i<=rowInt-1;i++){
+                    for(let i=rowInt-3;i<=rowInt;i++){
                         let temp={};
                     //    console.log("inside for loop"+i);
                         temp.col = colIndex;
@@ -264,41 +293,90 @@ const checkVertical=(colIndex,rowIndex)=>{
                     }
                    break;
                    default:
-                       break;  
-    
+                       break;     
             }
     
-        //    console.log("gameObject is");
-         //   console.log(gameObject);
-     
-
+           // console.log("gameObject is");
+           // console.log(gameObject);
+            gameStatus(gameObject);
         }
      }
- 
+     const gameStatus=(gameObject)=>{
+         for(let i=0;i<gameObject.length;i++){
+             let gameObjectId = `canvasCell[${gameObject[i].col}][${gameObject[i].row}]`;
+             let element=document.getElementById(gameObjectId);
+            // console.log("gameObjectId");
+            // console.log(gameObjectId);
+            // console.log("element");
+            // console.log(element);
+             if(element!=null){
+                let className = element.getAttribute('class');
+                gameObject[i].id=gameObjectId;
+                gameObject[i].class=className;           
+   
+             }
+          }
+
+             //check if middle piece matches then we dont have to make unnecessary loops to findout that lines do not match
+                let middleIndex =Math.floor(gameObject.length/2);
+                let gameCounter=1;
+
+                    if(((gameObject[middleIndex]!=null && gameObject[middleIndex]!=null)&&(gameObject[middleIndex].class == gameObject[middleIndex+1].class )) || ((gameObject[middleIndex]!=null && gameObject[middleIndex-1]!=null)&&(gameObject[middleIndex].class == gameObject[middleIndex-1].class)))
+                        {
+                            console.log("middle items are matching");
+                            //middle items match search continues further
+                            for(let i=0;i<gameObject.length-1;i++){
+                                if(gameObject[i].class == gameObject[i+1].class){
+                                    gameCounter++;
+                                    console.log("gameCounter: "+gameCounter);
+                                }
+                                else{
+                                    gameCounter=1;
+                                }
+                                if(gameCounter>=4){
+                                    gameOver=true;
+                                    alert(`${gameObject[i].class} won the game`);
+                                    break;
+                                }
+                                
+                            }
+                        }
+                        else{
+                            gameOver=false; 
+                        }
+
+     }
     
     const checkGameStatus=(index)=>{
-        console.log("inside checkGameStatus");
+     //   console.log("inside checkGameStatus");
         const colData = document.getElementById(index).getAttribute('col');
         const rowData = document.getElementById(index).getAttribute('row'); 
        // console.log(`colData ${colData} rowData ${rowData}`);
         checkVertical(colData,rowData);
         checkHorizontal(colData,rowData);
-        checkDiagonal(colData,rowData);   
-        return false;
+        checkDiagonal(colData,rowData);
+        return gameOver;
     }
     const game=(event)=>{
-        //console.log(event);
-        const colData = $(event).attr('col');
-        const rowData = $(event).attr('row');
-        let columnsList = $(`.col${colData}`);
-       // console.log(columnsList);
-        if(currentPlayer ==="player1"){
-            findLastFilledElement(columnsList,'red');
+        if(gameOver==true){
+            alert("Game is Over RESET the game and click START to play");
         }
         else{
-            findLastFilledElement(columnsList,'yellow');
-        }
 
+            //console.log(event);
+            const colData = $(event).attr('col');
+            const rowData = $(event).attr('row');
+            let columnsList = $(`.col${colData}`);
+            // console.log(columnsList);
+            if(currentPlayer ==="player1"){
+                findLastFilledElement(columnsList,'red');
+            }
+            else{
+                findLastFilledElement(columnsList,'yellow');
+            }
+
+        }
+  
     }
     const mouseClick= function(){
         event.preventDefault();
@@ -308,6 +386,8 @@ const checkVertical=(colIndex,rowIndex)=>{
       //  drawCircle(col,width,height,radius,'red');
     }
     const start=()=>{
+        alert("You are the first Player and your color RED");
+
        console.log("inside start");
        const $board =$('.col');
        $board.on('click',mouseClick);    
@@ -317,6 +397,10 @@ const checkVertical=(colIndex,rowIndex)=>{
     const $board =$('.col');
     $board.off('click',mouseClick);
    }
+   const reset=()=>{
+       console.log("inside reset");
+       window.location.reload();
+       }
 const initializeBoard=()=>{
  
     let $div = $("#board");
@@ -367,6 +451,7 @@ const initializeBoard=()=>{
 initializeBoard();
 let startBtn = document.getElementById("start").addEventListener('click',start);
 let stopBtn = document.getElementById("stop").addEventListener('click',stop);
+let resetBtn = document.getElementById("reset").addEventListener('click',reset);
 
 
 });
