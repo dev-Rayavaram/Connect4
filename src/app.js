@@ -68,37 +68,46 @@ const checkDiagonal=(colIndex,rowIndex)=>{
         let colInt=parseInt(colIndex);
         let rowInt=parseInt(rowIndex);
        // console.log("colInt"+rowInt);
-        if(colInt==0 && rowInt==1){
-            gameObject.push({col:0,row:1});
-            gameObject.push({col:1,row:2});
-            gameObject.push({col:2,row:3});
-            gameObject.push({col:3,row:4});
-
-        }
-        else if(colInt==0 && rowInt==6)
+        if((colInt==0 , rowInt==1)||(colInt==1 , rowInt==2)||(colInt==2 , rowInt==3)||(colInt==3 , rowInt==4)){
+            for(let i=0;i<=3;i++){
+                let temp={};
+//                console.log("inside for loop"+i);
+                temp.col = i;
+                temp.row = i+1;
+                gameObject.push(temp);   
+            }
+         }
+        else if((colInt==0 , rowInt==6)||(colInt==1 , rowInt==5)||(colInt==2 , rowInt==4)||(colInt==3 , rowInt==3))
         {
-                gameObject.push({col:0,row:6});
-                gameObject.push({col:1,row:5});
-                gameObject.push({col:2,row:4});
-                gameObject.push({col:3,row:3});
-    
+            for(let i=0;i<=3;i++){
+                let temp={};
+//                console.log("inside for loop"+i);
+                temp.col = i;
+                temp.row = 6-i;
+                gameObject.push(temp);   
+            }
+     
         }
-        else if(colInt==6 && rowInt==1)
+        else if((colInt==6 , rowInt==1)||(colInt==5 , rowInt==2)||(colInt==4 , rowInt==3)||(colInt==3 , rowInt==4))
         {
-                gameObject.push({col:6,row:1});
-                gameObject.push({col:5,row:2});
-                gameObject.push({col:4,row:3});
-                gameObject.push({col:3,row:4});
-    
+            for(let i=6;i<=3;i--){
+                let temp={};
+//                console.log("inside for loop"+i);
+                temp.col = i;
+                temp.row = 7-i;
+                gameObject.push(temp);   
+            }
         }
-        else if(colInt==6 && rowInt==6)
+        else if((colInt==6, rowInt==6)||(colInt==5,rowInt==5)||(colInt==4 ,rowInt==4)||(colInt==3 , rowInt==3))
         {
-                gameObject.push({col:6,row:6});
-                gameObject.push({col:5,row:5});
-                gameObject.push({col:4,row:4});
-                gameObject.push({col:3,row:3});
-    
-        }
+            for(let i=6;i<=3;i--){
+                let temp={};
+//                console.log("inside for loop"+i);
+                temp.col = i;
+                temp.row = i;
+                gameObject.push(temp);   
+            }
+      }
         gameStatus(gameObject);       
     }
 
@@ -113,21 +122,10 @@ const checkHorizontal=(colIndex,rowIndex)=>{
        // console.log("colInt"+rowInt);
 
         switch(colInt){
-            case 7:
-            //    console.log("case 7");
-                    for(let i=colInt-4;i<=colInt;i++){
-                        let temp={};
-           //             console.log("inside for loop"+i);
-                        temp.col = i;
-                        temp.row = rowInt;
-                        gameObject.push(temp);
-                        nextIndex++; 
-                    }
-                break;
- 
+  
             case 6:
         //        console.log("case 6");
-                    for(let i=colInt-3;i<=colInt+1;i++){
+                    for(let i=colInt-3;i<=colInt;i++){
                         let temp={};
         //                console.log("inside for loop"+i);
                         temp.col = i;
@@ -139,7 +137,7 @@ const checkHorizontal=(colIndex,rowIndex)=>{
             case 5:
         //        console.log("case 5");
 
-                for(let i=colInt-3;i<=colInt+2;i++){
+                for(let i=colInt-4;i<=colInt+1;i++){
                     let temp={};
         //            console.log("inside for loop"+i);
                     temp.col = i;
@@ -164,7 +162,7 @@ const checkHorizontal=(colIndex,rowIndex)=>{
             case 3:
         //        console.log("case 3");
 
-                    for(let i=colInt-2;i<=colInt+3;i++){
+                    for(let i=colInt-3;i<=colInt+3;i++){
                         let temp={};
          //               console.log("inside for loop"+i);
                         temp.col = i;
@@ -177,7 +175,7 @@ const checkHorizontal=(colIndex,rowIndex)=>{
                 case 2:
         //            console.log("case 2");
 
-                    for(let i=colInt-1;i<=colInt+3;i++){
+                    for(let i=colInt-2;i<=colInt+3;i++){
                         let temp={};
 
         //                console.log("inside for loop"+i);
@@ -191,7 +189,7 @@ const checkHorizontal=(colIndex,rowIndex)=>{
                    case 1:
         //            console.log("case 1");
 
-                    for(let i=colInt;i<=colInt+3;i++){
+                    for(let i=colInt-1;i<=colInt+3;i++){
                         let temp={};
         //                console.log("inside for loop"+i);
                         temp.col = i;
@@ -200,10 +198,24 @@ const checkHorizontal=(colIndex,rowIndex)=>{
                         nextIndex++;              
                     }
                    break;
+                   case 0:
+        //            console.log("case 1");
+
+                    for(let i=colInt;i<=colInt+4;i++){
+                        let temp={};
+        //                console.log("inside for loop"+i);
+                        temp.col = i;
+                        temp.row = rowInt;
+                        gameObject.push(temp);
+                        nextIndex++;              
+                    }
+                        break;
                    default:
                        break;  
     
             }
+           // console.log("inside check horizontal");
+           // console.log(gameObject);
           gameStatus(gameObject);
         }
    
@@ -302,13 +314,16 @@ const checkVertical=(colIndex,rowIndex)=>{
         }
      }
      const gameStatus=(gameObject)=>{
+      //  console.log("before entering game");
+     
+        console.log(gameObject);
          for(let i=0;i<gameObject.length;i++){
              let gameObjectId = `canvasCell[${gameObject[i].col}][${gameObject[i].row}]`;
              let element=document.getElementById(gameObjectId);
-            // console.log("gameObjectId");
-            // console.log(gameObjectId);
-            // console.log("element");
-            // console.log(element);
+            //  console.log("gameObjectId");
+            //  console.log(gameObjectId);
+            //  console.log("element");
+            //  console.log(element);
              if(element!=null){
                 let className = element.getAttribute('class');
                 gameObject[i].id=gameObjectId;
@@ -316,34 +331,41 @@ const checkVertical=(colIndex,rowIndex)=>{
    
              }
           }
+          console.log("before checking game");
+          console.log(gameObject);
 
              //check if middle piece matches then we dont have to make unnecessary loops to findout that lines do not match
-                let middleIndex =Math.floor(gameObject.length/2);
                 let gameCounter=1;
+                for(let i=0;i<gameObject.length-1;i++){
+                          console.log("inside for loop");
+                          let currentClass =gameObject[i].class;
+                          let nextClass= gameObject[i+1].class;
+                          let colIndex1 = currentClass.lastIndexOf('col');
+                          let colIndex2 = nextClass.lastIndexOf('col');
+                          let playerIndex1 = currentClass.slice(colIndex1+4,currentClass.length)
+                          let playerIndex2 = nextClass.slice(colIndex2+4,nextClass.length)
 
-                    if(((gameObject[middleIndex]!=null && gameObject[middleIndex]!=null)&&(gameObject[middleIndex].class == gameObject[middleIndex+1].class )) || ((gameObject[middleIndex]!=null && gameObject[middleIndex-1]!=null)&&(gameObject[middleIndex].class == gameObject[middleIndex-1].class)))
-                        {
-                            console.log("middle items are matching");
-                            //middle items match search continues further
-                            for(let i=0;i<gameObject.length-1;i++){
-                                if(gameObject[i].class == gameObject[i+1].class){
-                                    gameCounter++;
-                                    console.log("gameCounter: "+gameCounter);
-                                }
-                                else{
-                                    gameCounter=1;
-                                }
-                                if(gameCounter>=4){
-                                    gameOver=true;
-                                    alert(`${gameObject[i].class} won the game`);
-                                    break;
-                                }
-                                
-                            }
+                          console.log("currentClass :"+playerIndex1);
+                          console.log("nextClass :"+playerIndex2);
+                         
+                        if(playerIndex1==playerIndex2 && playerIndex1 !="empty"){
+                            gameCounter++;
+                            console.log("gameCounter: "+gameCounter);
                         }
                         else{
-                            gameOver=false; 
+                            gameCounter=1;
                         }
+                        if(gameCounter>=4){
+                            gameOver=true;
+                            alert(`${playerIndex1} won the game`);
+                            break;
+                        }
+                        
+                    }               
+                    if(gameOver){
+                        alert("GAME OVER");
+                        window.location.reload();
+                    }
 
      }
     
@@ -352,9 +374,15 @@ const checkVertical=(colIndex,rowIndex)=>{
         const colData = document.getElementById(index).getAttribute('col');
         const rowData = document.getElementById(index).getAttribute('row'); 
        // console.log(`colData ${colData} rowData ${rowData}`);
-        checkVertical(colData,rowData);
-        checkHorizontal(colData,rowData);
-        checkDiagonal(colData,rowData);
+       if(!gameOver){
+            checkVertical(colData,rowData);
+       }
+       if(!gameOver){
+            checkHorizontal(colData,rowData);
+       }
+       if(!gameOver){
+            checkDiagonal(colData,rowData);
+       }
         return gameOver;
     }
     const game=(event)=>{
@@ -386,19 +414,19 @@ const checkVertical=(colIndex,rowIndex)=>{
       //  drawCircle(col,width,height,radius,'red');
     }
     const start=()=>{
-        alert("You are the first Player and your color RED");
+        alert("You are the first Player and your color is RED");
 
-       console.log("inside start");
+    //    console.log("inside start");
        const $board =$('.col');
        $board.on('click',mouseClick);    
    } 
    const stop=()=>{
-    console.log("inside stop");
+    // console.log("inside stop");
     const $board =$('.col');
     $board.off('click',mouseClick);
    }
    const reset=()=>{
-       console.log("inside reset");
+    //    console.log("inside reset");
        window.location.reload();
        }
 const initializeBoard=()=>{
