@@ -320,8 +320,7 @@ const checkVertical=(colIndex,rowIndex)=>{
                     }
 
      }
-    /*checkGameStatus doesn't actually checks anything, instead it calls methods
-     to fill gameObject with winning rows,columns and diagonal elements*/
+   
     const checkGameStatus=(index)=>{
      //   console.log("inside checkGameStatus");
         const colData = document.getElementById(index).getAttribute('col');
@@ -330,7 +329,7 @@ const checkVertical=(colIndex,rowIndex)=>{
        if(!gameOver){
             checkVertical(colData,rowData);
        }
-       /* I used multiple statements to call each method so that they get
+       /* I used multiple if statements to call each method so that they get
        executed only when the previous one returns false(no match found)*/
 
        if(!gameOver){
@@ -409,7 +408,7 @@ const initializeBoard=()=>{
         for(var j=0;j<7;j++){
             index=`canvasCell[${j}][${i}]`;
           //  console.log("id :"+index);
-
+// custom attributes row and col are added when creating canvas elements
             const $col = $('<canvas>').addClass(`col${j} col empty`).attr('col',j).attr('row',i).attr('id',index);
             $col.width(width).height(height);
             $col.width(width).height(height);
