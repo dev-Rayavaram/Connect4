@@ -18,6 +18,9 @@ $(()=>{
         ctx2.strokeStyle = '#003300';
         ctx2.stroke();
     }
+    /*check for empty slot 
+    ,starting from bottom in the same column to drop the piece
+    */
       const findLastFilledElement=(list,color)=>{
          if(playCounter==42){
              alert("GAME OVER Please RESET to play");
@@ -57,11 +60,12 @@ $(()=>{
     }
   
 }
+/*for the following three functions , fill the gameObject array with row and
+columns so that we can check them later for winning lines*/ 
 const checkDiagonal=(colIndex,rowIndex)=>{
     gameObject=[];
     let element = {};
     if(!newGame){
-         let nextIndex=1;
         let colInt=parseInt(colIndex);
         let rowInt=parseInt(rowIndex);
        // console.log("colInt"+rowInt);
@@ -113,7 +117,6 @@ const checkHorizontal=(colIndex,rowIndex)=>{
     gameObject=[];
     let element = {};
     if(!newGame){
-         let nextIndex=1;
         let colInt=parseInt(colIndex);
         let rowInt=parseInt(rowIndex);
        // console.log("colInt"+rowInt);
@@ -126,7 +129,6 @@ const checkHorizontal=(colIndex,rowIndex)=>{
                         temp.col = i;
                         temp.row = rowInt;
                         gameObject.push(temp);
-                        nextIndex++; 
                     }
                 break;
             case 5:
@@ -135,7 +137,6 @@ const checkHorizontal=(colIndex,rowIndex)=>{
                     temp.col = i;
                     temp.row = rowInt;
                     gameObject.push(temp);
-                     nextIndex++;              
             }
     
                 break;
@@ -145,7 +146,6 @@ const checkHorizontal=(colIndex,rowIndex)=>{
                         temp.col = i;
                         temp.row = rowInt;
                         gameObject.push(temp);
-                        nextIndex++;
               
                     }
                    break;
@@ -155,7 +155,6 @@ const checkHorizontal=(colIndex,rowIndex)=>{
                         temp.col = i;
                         temp.row = rowInt;
                         gameObject.push(temp);
-                        nextIndex++;              
                     }
                    break;
        
@@ -165,7 +164,6 @@ const checkHorizontal=(colIndex,rowIndex)=>{
                         temp.col = i;
                         temp.row = rowInt;
                         gameObject.push(temp);
-                        nextIndex++;              
                     }
                    break;
        
@@ -175,7 +173,6 @@ const checkHorizontal=(colIndex,rowIndex)=>{
                         temp.col = i;
                         temp.row = rowInt;
                         gameObject.push(temp);
-                        nextIndex++;              
                     }
                    break;
                    case 0:
@@ -184,7 +181,6 @@ const checkHorizontal=(colIndex,rowIndex)=>{
                         temp.col = i;
                         temp.row = rowInt;
                         gameObject.push(temp);
-                        nextIndex++;              
                     }
                         break;
                    default:
@@ -199,7 +195,6 @@ const checkVertical=(colIndex,rowIndex)=>{
     gameObject=[];
     let element = {};
     if(!newGame){
-         let nextIndex=1;
         let rowInt=parseInt(rowIndex);
         let colInt=parseInt(colIndex);
 
@@ -210,7 +205,6 @@ const checkVertical=(colIndex,rowIndex)=>{
                         temp.col = colIndex;
                         temp.row = i;
                         gameObject.push(temp);
-                        nextIndex++; 
                     }
                 break;
             case 5:
@@ -219,7 +213,7 @@ const checkVertical=(colIndex,rowIndex)=>{
                     temp.col = colIndex;
                     temp.row = i;
                     gameObject.push(temp);
-                     nextIndex++;              
+                                   
             }
     
                 break;
@@ -229,7 +223,6 @@ const checkVertical=(colIndex,rowIndex)=>{
                         temp.col = colIndex;
                         temp.row = i;
                         gameObject.push(temp);
-                        nextIndex++;
               
                     }
                    break;
@@ -239,7 +232,6 @@ const checkVertical=(colIndex,rowIndex)=>{
                         temp.col = colIndex;
                         temp.row = i;
                         gameObject.push(temp);
-                        nextIndex++;              
                     }
                    break;
        
@@ -249,7 +241,6 @@ const checkVertical=(colIndex,rowIndex)=>{
                         temp.col = colIndex;
                         temp.row = i;
                         gameObject.push(temp);
-                        nextIndex++;              
                     }
                    break;
        
@@ -259,7 +250,6 @@ const checkVertical=(colIndex,rowIndex)=>{
                         temp.col = colIndex;
                         temp.row = i;
                         gameObject.push(temp);
-                        nextIndex++;              
                     }
                    break;
                    default:
@@ -268,6 +258,8 @@ const checkVertical=(colIndex,rowIndex)=>{
              gameStatus(gameObject);
         }
      }
+     /* using gameObject array objects ,we can compare if the player has 
+     4 matching pieces either in a row, or a column or diagonally */
      const gameStatus=(gameObject)=>{     
         console.log(gameObject);
          for(let i=0;i<gameObject.length;i++){
@@ -283,8 +275,6 @@ const checkVertical=(colIndex,rowIndex)=>{
           }
           console.log("before checking game");
           console.log(gameObject);
-
-             //check if middle piece matches then we dont have to make unnecessary loops to findout that lines do not match
                 let gameCounter=1;
                 for(let i=0;i<gameObject.length-1;i++){
                           console.log("inside for loop");
@@ -330,7 +320,8 @@ const checkVertical=(colIndex,rowIndex)=>{
                     }
 
      }
-    
+    /*checkGameStatus doesn't actually checks anything, instead it calls methods
+     to fill gameObject with winning rows,columns and diagonal elements*/
     const checkGameStatus=(index)=>{
      //   console.log("inside checkGameStatus");
         const colData = document.getElementById(index).getAttribute('col');
@@ -339,6 +330,9 @@ const checkVertical=(colIndex,rowIndex)=>{
        if(!gameOver){
             checkVertical(colData,rowData);
        }
+       /* I used multiple statements to call each method so that they get
+       executed only when the previous one returns false(no match found)*/
+
        if(!gameOver){
             checkHorizontal(colData,rowData);
        }
@@ -399,7 +393,7 @@ const initializeBoard=()=>{
     let index=0;
     let id='';
     let $zeroRow = $('#piece');
-
+//created extra row without pieces to identify elements in each coulmns on the game board 
     for(let k=0;k<7;k++){
         let indexZero=`canvasCell[${k}][0]`;
         const $colZero = $('<canvas>').addClass(`col${k} col empty`).attr('col',k).attr('row',0).attr('id',indexZero);
@@ -426,6 +420,7 @@ const initializeBoard=()=>{
         }
     }
     currentPlayer="player1";
+    //initialize computer score and player score with storage variables
     let compScore =localStorage.getItem("computerScore");
     if(compScore!=null){
         computerScore = parseInt(compScore);
