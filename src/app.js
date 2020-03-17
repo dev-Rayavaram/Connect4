@@ -306,13 +306,16 @@ const checkVertical=(colIndex,rowIndex)=>{
                             gameCounter=1;
                         }
                         if(gameCounter>=4){
-                            gameOver=false;
+                            gameOver=true;
                             alert(`${playerIndex1} won the game`);
                             if(playerIndex1==="player1"){
                                 Player1score=Player1score+1;
+                                localStorage.setItem("Player1score", Player1score);
                                 $('#player1').val(Player1score);
                             }else if(playerIndex1==="computer"){
                                 computerScore=computerScore+1;
+                                localStorage.setItem("computerScore", computerScore);
+
                                 $('#computer').val(computerScore);
 
                             }
@@ -323,6 +326,7 @@ const checkVertical=(colIndex,rowIndex)=>{
                     }               
                     if(gameOver){
                         console.log("game Over");
+                        window.location.reload();
                     }
 
      }
@@ -380,6 +384,9 @@ const checkVertical=(colIndex,rowIndex)=>{
    const reset=()=>{
     //    console.log("inside reset");
        window.location.reload();
+       let playerScore = localStorage.removeItem("Player1score");
+       let compScore =localStorage.removeItem("computerScore");
+
        }
 const initializeBoard=()=>{
  
@@ -419,6 +426,18 @@ const initializeBoard=()=>{
         }
     }
     currentPlayer="player1";
+    let compScore =localStorage.getItem("computerScore");
+    if(compScore!=null){
+        computerScore = parseInt(compScore);
+
+    }
+    let playerScore = localStorage.getItem("Player1score");
+    if(playerScore!=null){
+        Player1score = parseInt(playerScore);
+    }
+    $('#player1').val(Player1score);
+    $('#computer').val(computerScore);
+
    
   }
 initializeBoard();
