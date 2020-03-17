@@ -9,7 +9,14 @@
                 width:100%;
                 display: flex;
                 border:.2% solid black;                   
-                 background-image: url("./images/connect4image2.png"); 
+                 background-image: url("./images/connect4image2.png");
+                 opacity: 5;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                right: 0;
+                position: absolute;
+                z-index: -1;    
                 padding:0px;
                 justify-content: center;
                 align-items: center;
@@ -88,9 +95,9 @@
                 display: flex;
                 flex-direction: column;
                 position: absolute;
-                width:10%;
-                height:10%;
-                top:30%;
+                width:12%;
+                height:25%;
+                top:20%;
                 left:2%;
             }
             button{
@@ -103,12 +110,17 @@
                 background: linear-gradient(to right, rgb(103, 150, 221) 0%, #c9e7f1 100%);
                 font-family:fantasy;
                 font-weight: bold;
-                font-size: medium;
+                font-size:x-large;
 
             }
             button:hover{
                 background: linear-gradient(to right, rgb(18, 190, 41) 0%, #ffffff 100%);
 
+            }
+            span{
+                font-size: large;
+                font-weight: bold;
+                color: white;
             }
         </style>
     <title>Document</title>
@@ -151,11 +163,15 @@
                 </div>
         </div>
         <div class="buttons">
+            <span><h2>Score:</h2></span>
+            <span><h4>Player 1:</h4><output id="player1"></output></span>
+            <span><h4>Computer:</h4><output id="computer"></output></span>
+
             <button id="start"> Start </button>
             <button id="stop"> Stop </button>
             <button id="reset"> Reset </button>
-
-           </div>            
+            
+        </div>            
    </div> 
 </body>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
